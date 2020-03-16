@@ -1,0 +1,11 @@
+C:\Labs\Core\DevIO.Api\DevIO.Data\bin\Debug\netcoreapp2.2\DevIO.Data.deps.json
+C:\Labs\Core\DevIO.Api\DevIO.Data\bin\Debug\netcoreapp2.2\DevIO.Data.dll
+C:\Labs\Core\DevIO.Api\DevIO.Data\bin\Debug\netcoreapp2.2\DevIO.Data.pdb
+C:\Labs\Core\DevIO.Api\DevIO.Data\bin\Debug\netcoreapp2.2\DevIO.Business.dll
+C:\Labs\Core\DevIO.Api\DevIO.Data\bin\Debug\netcoreapp2.2\DevIO.Business.pdb
+C:\Labs\Core\DevIO.Api\DevIO.Data\obj\Debug\netcoreapp2.2\DevIO.Data.csprojAssemblyReference.cache
+C:\Labs\Core\DevIO.Api\DevIO.Data\obj\Debug\netcoreapp2.2\DevIO.Data.AssemblyInfoInputs.cache
+C:\Labs\Core\DevIO.Api\DevIO.Data\obj\Debug\netcoreapp2.2\DevIO.Data.AssemblyInfo.cs
+C:\Labs\Core\DevIO.Api\DevIO.Data\obj\Debug\netcoreapp2.2\DevIO.Data.csproj.CopyComplete
+C:\Labs\Core\DevIO.Api\DevIO.Data\obj\Debug\netcoreapp2.2\DevIO.Data.dll
+C:\Labs\Core\DevIO.Api\DevIO.Data\obj\Debug\netcoreapp2.2\DevIO.Data.pdb
