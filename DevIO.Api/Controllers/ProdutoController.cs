@@ -18,7 +18,8 @@ namespace DevIO.Api.Controllers
         public ProdutoController(
             IProdutoService produtoService,
             IProdutoRepository produtoRepository,
-            IMapper mapper)
+            IMapper mapper,
+            INotificador notificador) : base(notificador)
         {
             _produtoService = produtoService;
             _produtoRepository = produtoRepository;
@@ -28,55 +29,70 @@ namespace DevIO.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProdutoViewModel>>> ObterTodos()
         {
-            var produtos = _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos());
-            if (produtos == null) return NotFound();
+            IEnumerable<ProdutoViewModel> produtosViewModel = await ObterProdutos();
+            if (produtosViewModel == null) return NotFound();
 
-            return Ok();
+            return Ok(produtosViewModel);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> ObterPorId(Guid id)
         {
-            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
-            if (produto == null) return NotFound();
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
+            if (produtoViewModel == null) return NotFound();
 
-            return Ok();
+            return Ok(produtoViewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult<ProdutoViewModel>> Adicionar([FromBody] ProdutoViewModel produtoViewModel)
         {
-            if (produtoViewModel == null) return BadRequest();
-
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
-            return Ok();
+            return CustomResponse(produtoViewModel);
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Atualizar(Guid id, [FromBody] ProdutoViewModel produtoViewModel)
         {
-            if (produtoViewModel.Id != id) return BadRequest();
+            if (produtoViewModel.Id != id)
+            {
+                NotificaErro("O Id informado não corresponde ao produto.");
+                CustomResponse(produtoViewModel);
+            }
 
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _produtoService.Atualizar(_mapper.Map<Produto>(produtoViewModel));
 
-            return Ok();
+            return CustomResponse(produtoViewModel);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Remover(Guid id)
         {
-            var produto = _produtoRepository.ObterPorId(id);
+            var produtoViewModel = await ObterProdutoPorId(id);
 
-            if (produto == null) return NotFound();
+            if (produtoViewModel == null) return NotFound();
 
             await _produtoService.Remover(id);
 
-            return Ok();
+            return CustomResponse();
         }
+
+        #region Métodos Auxiliares
+        private async Task<ProdutoViewModel> ObterProdutoPorId(Guid id)
+        {
+            return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
+        }
+
+        private async Task<IEnumerable<ProdutoViewModel>> ObterProdutos()
+        {
+            return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos());
+        }
+
+        #endregion
     }
 }

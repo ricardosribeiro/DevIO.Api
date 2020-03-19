@@ -18,7 +18,8 @@ namespace DevIO.Api.Controllers
         public FornecedorController(
             IFornecedorRepository fornecedorRepository,
             IFornecedorService fornecedorService,
-            IMapper mapper)
+            IMapper mapper,
+            INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _fornecedorService = fornecedorService;
@@ -28,59 +29,62 @@ namespace DevIO.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FornecedorViewModel>>> ObterTodos()
         {
-            var fornecedores = await ObterTodosFornecedores();
+            var fornecedoresViewModel = await ObterTodosFornecedores();
 
-            if (fornecedores == null) return NotFound();
+            if (fornecedoresViewModel == null) return NotFound();
 
-            return Ok(fornecedores);
+            return Ok(fornecedoresViewModel);
 
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
         {
-            FornecedorViewModel fornecedor = await ObterFornecedorPorId(id);
-            if (fornecedor == null) return NotFound();
+            var fornecedorViewModel = await ObterFornecedorPorId(id);
+            if (fornecedorViewModel == null) return NotFound();
 
-            return Ok(fornecedor);
+            return Ok(fornecedorViewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult<FornecedorViewModel>> Adicionar([FromBody] FornecedorViewModel fornecedorViewModel)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var retorno = await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+            await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
-            if (!retorno) return BadRequest();
-
-            return Ok(fornecedorViewModel);
+            return CustomResponse(fornecedorViewModel);
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<FornecedorViewModel>> Atualizar(Guid id, [FromBody] FornecedorViewModel fornecedorViewModel)
         {
-            if (id != fornecedorViewModel.Id) return BadRequest();
+            if (id != fornecedorViewModel.Id)
+            {
+                NotificaErro("O Id informado não corresponde ao Fornecedor");
+                CustomResponse();
+            }
 
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse();
 
-            var retorno = await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+            await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
-            if (!retorno) return BadRequest();
-
-            return Ok(fornecedorViewModel);
+            return CustomResponse(fornecedorViewModel);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Remover(Guid id)
         {
-            var retorno = await _fornecedorService.Remover(id);
+            var fornecedorViewModel = _fornecedorRepository.ObterPorId(id);
 
-            if (!retorno) return BadRequest();
+            if (fornecedorViewModel == null) return NotFound();
 
-            return Ok();
+            await _fornecedorService.Remover(id);
+
+            return CustomResponse();
         }
 
+        #region Métodos Auxiliares
         private async Task<FornecedorViewModel> ObterFornecedorPorId(Guid id)
         {
             return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterPorId(id));
@@ -91,5 +95,7 @@ namespace DevIO.Api.Controllers
             var fornecedores = await _fornecedorRepository.ObterTodos();
             return _mapper.Map<IEnumerable<FornecedorViewModel>>(fornecedores);
         }
+
+        #endregion
     }
 }
