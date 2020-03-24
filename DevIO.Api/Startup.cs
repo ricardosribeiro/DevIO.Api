@@ -33,16 +33,27 @@ namespace DevIO.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+          
             services.AddAutoMapper(typeof(Startup));
             services.ResolveDependencyInjection();
             services.ResolveDbContextConfiguration(Configuration);
+
+            services.AddCors(options=>
+            {
+                options.AddPolicy("Development", 
+                builder=>
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });   
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //Evita que a API valide as models sem usar o ModelState
             services.Configure<ApiBehaviorOptions>(options => {
                 options.SuppressModelStateInvalidFilter = true;
-            });
-                
+            });           
           
         }
 
@@ -59,6 +70,7 @@ namespace DevIO.Api
                 app.UseHsts();
             }
 
+            app.UseCors("Development");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

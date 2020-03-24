@@ -5,6 +5,7 @@ using DevIO.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DevIO.Api.Controllers
@@ -29,7 +30,7 @@ namespace DevIO.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProdutoViewModel>>> ObterTodos()
         {
-            IEnumerable<ProdutoViewModel> produtosViewModel = await ObterProdutos();
+            var produtosViewModel = await ObterProdutos();
             if (produtosViewModel == null) return NotFound();
 
             return Ok(produtosViewModel);
@@ -38,7 +39,7 @@ namespace DevIO.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> ObterPorId(Guid id)
         {
-            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
+            ProdutoViewModel produtoViewModel = await ObterProdutoPorId(id);
             if (produtoViewModel == null) return NotFound();
 
             return Ok(produtoViewModel);
@@ -49,6 +50,13 @@ namespace DevIO.Api.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
+            var imgNome = $"{Guid.NewGuid().ToString()}_{produtoViewModel.Imagem}";
+
+
+            if(!await UploadImagem(produtoViewModel.ImagemUpload, imgNome))
+                return CustomResponse(produtoViewModel);
+
+            produtoViewModel.Imagem = imgNome;
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             return CustomResponse(produtoViewModel);
@@ -90,7 +98,33 @@ namespace DevIO.Api.Controllers
 
         private async Task<IEnumerable<ProdutoViewModel>> ObterProdutos()
         {
-            return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos());
+            return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores());
+        }
+
+        #endregion
+
+        #region Upload Imagem
+
+        private async Task<bool> UploadImagem(string arquivo, string imgNome)
+        {
+            var imageDataByteArray = Convert.FromBase64String(arquivo);
+
+            if (string.IsNullOrEmpty(arquivo))
+            {
+                NotificaErro("Forneça uma imagem para este produto!");
+                return false;
+            }
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/app/demo-webapi/src/assets", imgNome);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                NotificaErro("Já existe um arquivo com este nome!");
+                return false;
+            }
+
+            await System.IO.File.WriteAllBytesAsync(filePath, imageDataByteArray);
+            return true;
         }
 
         #endregion

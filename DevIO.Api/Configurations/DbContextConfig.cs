@@ -13,7 +13,7 @@ namespace DevIO.Api.Configurations
         {
             services.AddDbContext<MeuDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(configuration.GetConnectionString("Development"));
             });
 
             return services;
