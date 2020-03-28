@@ -30,23 +30,15 @@ namespace DevIO.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime.  1 Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
           
             services.AddAutoMapper(typeof(Startup));
             services.ResolveDependencyInjection();
-            services.ResolveDbContextConfiguration(Configuration);
-
-            services.AddCors(options=>
-            {
-                options.AddPolicy("Development", 
-                builder=>
-                    builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });   
+            services.AddDefaultDbContextConfiguration(Configuration);
+            services.AddIdentityDbContextConfiguration(Configuration);
+            WebApiConfig.AddCorsConfig(services);           
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -72,6 +64,8 @@ namespace DevIO.Api
 
             app.UseCors("Development");
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();           
             app.UseMvc();
         }
     }

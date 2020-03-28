@@ -2,6 +2,7 @@
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace DevIO.Api.Controllers
 {
+    [Authorize]
     public class ProdutoController : MainController
     {
         readonly IProdutoService _produtoService;
@@ -27,6 +29,7 @@ namespace DevIO.Api.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProdutoViewModel>>> ObterTodos()
         {
@@ -36,6 +39,7 @@ namespace DevIO.Api.Controllers
             return Ok(produtosViewModel);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> ObterPorId(Guid id)
         {
@@ -95,16 +99,10 @@ namespace DevIO.Api.Controllers
         {
             return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
         }
-
         private async Task<IEnumerable<ProdutoViewModel>> ObterProdutos()
         {
             return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores());
         }
-
-        #endregion
-
-        #region Upload Imagem
-
         private async Task<bool> UploadImagem(string arquivo, string imgNome)
         {
             var imageDataByteArray = Convert.FromBase64String(arquivo);
