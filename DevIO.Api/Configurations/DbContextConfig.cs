@@ -29,7 +29,7 @@ namespace DevIO.Api.Configurations
                 options.UseSqlServer(configuration.GetConnectionString("Development"));
             });
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders();

@@ -2,7 +2,7 @@
 
 namespace DevIO.Api.Configurations
 {
-    public static class WebApiConfig
+    public static class CorsConfig
     {
         public static IServiceCollection AddCorsConfig(this IServiceCollection services)
         {

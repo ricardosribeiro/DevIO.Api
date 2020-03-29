@@ -35,12 +35,12 @@ namespace DevIO.Api
         {
           
             services.AddAutoMapper(typeof(Startup));
-            services.ResolveDependencyInjection();
             services.AddDefaultDbContextConfiguration(Configuration);
             services.AddIdentityDbContextConfiguration(Configuration);
-            WebApiConfig.AddCorsConfig(services);           
+            CorsConfig.AddCorsConfig(services);           
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.ResolveDependencyInjection();
 
             //Evita que a API valide as models sem usar o ModelState
             services.Configure<ApiBehaviorOptions>(options => {
