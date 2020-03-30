@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DevIO.Api.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
