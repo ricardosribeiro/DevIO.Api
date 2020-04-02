@@ -19,5 +19,3 @@ C:\Labs\Core\DevIO.Api\DevIO.Api\obj\Debug\netcoreapp2.2\DevIO.Api.RazorTargetAs
 C:\Labs\Core\DevIO.Api\DevIO.Api\obj\Debug\netcoreapp2.2\DevIO.Api.csproj.CopyComplete
 C:\Labs\Core\DevIO.Api\DevIO.Api\obj\Debug\netcoreapp2.2\DevIO.Api.dll
 C:\Labs\Core\DevIO.Api\DevIO.Api\obj\Debug\netcoreapp2.2\DevIO.Api.pdb
-C:\Labs\Core\DevIO.Api\DevIO.Api\obj\Debug\netcoreapp2.2\DevIO.Api.genruntimeconfig.cache
-C:\Labs\Core\DevIO.Api\DevIO.Api\obj\Debug\netcoreapp2.2\DevIO.Api.csproj.CoreCompileInputs.cache
