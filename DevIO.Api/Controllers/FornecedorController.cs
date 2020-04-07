@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DevIO.Api.Extensions;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
@@ -53,6 +54,7 @@ namespace DevIO.Api.Controllers
             return Ok(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor","Adicionar")]
         [HttpPost]
         public async Task<ActionResult<FornecedorViewModel>> Adicionar([FromBody] FornecedorViewModel fornecedorViewModel)
         {
@@ -63,6 +65,7 @@ namespace DevIO.Api.Controllers
             return CustomResponse(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Atualizar")]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<FornecedorViewModel>> Atualizar(Guid id, [FromBody] FornecedorViewModel fornecedorViewModel)
         {
@@ -79,6 +82,7 @@ namespace DevIO.Api.Controllers
             return CustomResponse(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Remover")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Remover(Guid id)
         {
@@ -102,6 +106,7 @@ namespace DevIO.Api.Controllers
             return CustomResponse(enderecoViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Atualizar")]
         [HttpPut("atualizar-endereco/{id:guid}")]
         public async Task<ActionResult> AtualizarEndereco(Guid id, [FromBody] EnderecoViewModel enderecoViewModel)
         {
