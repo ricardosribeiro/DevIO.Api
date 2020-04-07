@@ -3527,7 +3527,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ricardo Ribeiro\\.nuget\\packages\\": {},
+    "C:\\Users\\ricardocr\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
@@ -3537,7 +3537,7 @@
       "projectUniqueName": "C:\\Labs\\Core\\DevIO.Api\\DevIO.Data\\DevIO.Data.csproj",
       "projectName": "DevIO.Data",
       "projectPath": "C:\\Labs\\Core\\DevIO.Api\\DevIO.Data\\DevIO.Data.csproj",
-      "packagesPath": "C:\\Users\\Ricardo Ribeiro\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\ricardocr\\.nuget\\packages\\",
       "outputPath": "C:\\Labs\\Core\\DevIO.Api\\DevIO.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
@@ -3545,7 +3545,7 @@
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Ricardo Ribeiro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ricardocr\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -3603,7 +3603,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
