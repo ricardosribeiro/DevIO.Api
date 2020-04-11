@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DevIO.Api.ViewModels
 {
@@ -33,4 +34,26 @@ namespace DevIO.Api.ViewModels
         public string Password { get; set; }
 
     }
+
+    #region ViewModels utilizadas para prover retorno com dados do usuário
+    public class UserTokenViewModel
+    {
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public IEnumerable<ClaimViewModel> Claims { get; set; }
+    }
+
+    public class LoginResponseViewModel
+    {
+        public string AccessToken { get; set; }
+        public double ExpiresIn { get; set; }
+        public UserTokenViewModel UserToken { get; set; }
+    }
+    public class ClaimViewModel
+    {
+        public string Value { get; set; }
+        public string Type { get; set; }
+    }
+
+    #endregion
 }
