@@ -120,7 +120,7 @@ namespace DevIO.Api.Controllers
                 ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalMilliseconds,
                 UserToken = new UserTokenViewModel()
                 {
-                    Claims = claims.Select(c=>new ClaimViewModel() {Type = c.Type, Value = c.Value }),
+                    Claims = claims.Select(c => new ClaimViewModel() { Type = c.Type, Value = c.Value }),
                     Email = user.Email,
                     Id = user.Id,
                 },
@@ -130,6 +130,6 @@ namespace DevIO.Api.Controllers
         }
 
         private static long ToUnixEpocDate(DateTime date)
-            =>(long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+            => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
     }
 }
