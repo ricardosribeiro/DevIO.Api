@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DevIO.Api.Controllers;
 using DevIO.Api.Extensions;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
@@ -9,9 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DevIO.Api.Controllers
+namespace DevIO.Api.V2.Controllers
 {
     [Authorize]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/fornecedor")]
     public class FornecedorController : MainController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
@@ -57,7 +60,7 @@ namespace DevIO.Api.Controllers
             return Ok(fornecedorViewModel);
         }
 
-        [ClaimsAuthorize("Fornecedor","Adicionar")]
+        [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [HttpPost]
         public async Task<ActionResult<FornecedorViewModel>> Adicionar([FromBody] FornecedorViewModel fornecedorViewModel)
         {
@@ -107,7 +110,7 @@ namespace DevIO.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("obter-endereco/{id:guid}")]
-        public async Task<ActionResult>ObterEnderecoPorId(Guid id)
+        public async Task<ActionResult> ObterEnderecoPorId(Guid id)
         {
             EnderecoViewModel enderecoViewModel = await ObterEndereco(id);
 

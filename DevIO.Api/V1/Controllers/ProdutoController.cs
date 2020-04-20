@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DevIO.Api.Controllers;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
@@ -9,9 +10,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace DevIO.Api.Controllers
+namespace DevIO.Api.V1.Controllers
 {
     [Authorize]
+    [ApiVersion("1.0", Deprecated = true)]
+    [Route("api/v{version:apiVersion}/produto")]
     public class ProdutoController : MainController
     {
         readonly IProdutoService _produtoService;
@@ -57,7 +60,7 @@ namespace DevIO.Api.Controllers
             var imgNome = $"{Guid.NewGuid().ToString()}_{produtoViewModel.Imagem}";
 
 
-            if(!await UploadImagem(produtoViewModel.ImagemUpload, imgNome))
+            if (!await UploadImagem(produtoViewModel.ImagemUpload, imgNome))
                 return CustomResponse(produtoViewModel);
 
             produtoViewModel.Imagem = imgNome;
